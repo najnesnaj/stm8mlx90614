@@ -1,6 +1,5 @@
 #include "stm8.h"
 #include <string.h>
-#include "mlx90614.h"
 #define SET(x, y)   (x) |= (y)
 #define UNSET(x, y) (x) &= ~(y)
 #define READ(x, y)  ((x) & (y))

@@ -1,7 +1,7 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
 ; Version 3.4.0 #8981 (Jul  5 2014) (Linux)
-; This file was generated Thu Mar 30 10:26:56 2017
+; This file was generated Thu Mar 30 10:54:41 2017
 ;--------------------------------------------------------
 	.module sensors
 	.optsdcc -mstm8
@@ -132,87 +132,87 @@ __sdcc_program_startup:
 ; code
 ;--------------------------------------------------------
 	.area CODE
-;	sensors.c: 16: void delayTenMicro (void) {
+;	sensors.c: 15: void delayTenMicro (void) {
 ;	-----------------------------------------
 ;	 function delayTenMicro
 ;	-----------------------------------------
 _delayTenMicro:
-;	sensors.c: 18: for (a = 0; a < 50; ++a)
+;	sensors.c: 17: for (a = 0; a < 50; ++a)
 	ld	a, #0x32
 00104$:
-;	sensors.c: 19: __asm__("nop");
+;	sensors.c: 18: __asm__("nop");
 	nop
 	dec	a
-;	sensors.c: 18: for (a = 0; a < 50; ++a)
+;	sensors.c: 17: for (a = 0; a < 50; ++a)
 	tnz	a
 	jrne	00104$
 	ret
-;	sensors.c: 22: void InitializeSystemClock() {
+;	sensors.c: 21: void InitializeSystemClock() {
 ;	-----------------------------------------
 ;	 function InitializeSystemClock
 ;	-----------------------------------------
 _InitializeSystemClock:
-;	sensors.c: 23: CLK_ICKR = 0;                       //  Reset the Internal Clock Register.
+;	sensors.c: 22: CLK_ICKR = 0;                       //  Reset the Internal Clock Register.
 	ldw	x, #0x50c0
 	clr	(x)
-;	sensors.c: 24: CLK_ICKR = CLK_HSIEN;               //  Enable the HSI.
+;	sensors.c: 23: CLK_ICKR = CLK_HSIEN;               //  Enable the HSI.
 	ldw	x, #0x50c0
 	ld	a, #0x01
 	ld	(x), a
-;	sensors.c: 25: CLK_ECKR = 0;                       //  Disable the external clock.
+;	sensors.c: 24: CLK_ECKR = 0;                       //  Disable the external clock.
 	ldw	x, #0x50c1
 	clr	(x)
-;	sensors.c: 26: while ((CLK_ICKR & CLK_HSIRDY) == 0);       //  Wait for the HSI to be ready for use.
+;	sensors.c: 25: while ((CLK_ICKR & CLK_HSIRDY) == 0);       //  Wait for the HSI to be ready for use.
 00101$:
 	ldw	x, #0x50c0
 	ld	a, (x)
 	bcp	a, #0x02
 	jreq	00101$
-;	sensors.c: 27: CLK_CKDIVR = 0;                     //  Ensure the clocks are running at full speed.
+;	sensors.c: 26: CLK_CKDIVR = 0;                     //  Ensure the clocks are running at full speed.
 	ldw	x, #0x50c6
 	clr	(x)
-;	sensors.c: 28: CLK_PCKENR1 = 0xff;                 //  Enable all peripheral clocks.
+;	sensors.c: 27: CLK_PCKENR1 = 0xff;                 //  Enable all peripheral clocks.
 	ldw	x, #0x50c7
 	ld	a, #0xff
 	ld	(x), a
-;	sensors.c: 29: CLK_PCKENR2 = 0xff;                 //  Ditto.
+;	sensors.c: 28: CLK_PCKENR2 = 0xff;                 //  Ditto.
 	ldw	x, #0x50ca
 	ld	a, #0xff
 	ld	(x), a
-;	sensors.c: 30: CLK_CCOR = 0;                       //  Turn off CCO.
+;	sensors.c: 29: CLK_CCOR = 0;                       //  Turn off CCO.
 	ldw	x, #0x50c9
 	clr	(x)
-;	sensors.c: 31: CLK_HSITRIMR = 0;                   //  Turn off any HSIU trimming.
+;	sensors.c: 30: CLK_HSITRIMR = 0;                   //  Turn off any HSIU trimming.
 	ldw	x, #0x50cc
 	clr	(x)
-;	sensors.c: 32: CLK_SWIMCCR = 0;                    //  Set SWIM to run at clock / 2.
+;	sensors.c: 31: CLK_SWIMCCR = 0;                    //  Set SWIM to run at clock / 2.
 	ldw	x, #0x50cd
 	clr	(x)
-;	sensors.c: 33: CLK_SWR = 0xe1;                     //  Use HSI as the clock source.
+;	sensors.c: 32: CLK_SWR = 0xe1;                     //  Use HSI as the clock source.
 	ldw	x, #0x50c4
 	ld	a, #0xe1
 	ld	(x), a
-;	sensors.c: 34: CLK_SWCR = 0;                       //  Reset the clock switch control register.
+;	sensors.c: 33: CLK_SWCR = 0;                       //  Reset the clock switch control register.
 	ldw	x, #0x50c5
 	clr	(x)
-;	sensors.c: 35: CLK_SWCR = CLK_SWEN;                //  Enable switching.
+;	sensors.c: 34: CLK_SWCR = CLK_SWEN;                //  Enable switching.
 	ldw	x, #0x50c5
 	ld	a, #0x02
 	ld	(x), a
-;	sensors.c: 36: while ((CLK_SWCR & CLK_SWBSY) != 0);        //  Pause while the clock switch is busy.
+;	sensors.c: 35: while ((CLK_SWCR & CLK_SWBSY) != 0);        //  Pause while the clock switch is busy.
 00104$:
 	ldw	x, #0x50c5
 	ld	a, (x)
 	srl	a
 	jrc	00104$
 	ret
-;	sensors.c: 38: void delay (int time_ms) {
+;	sensors.c: 37: void delay (int time_ms) {
 ;	-----------------------------------------
 ;	 function delay
 ;	-----------------------------------------
 _delay:
 	sub	sp, #10
-;	sensors.c: 40: for (x = 0; x < 1036*time_ms; ++x)
+;	sensors.c: 39: for (x = 0; x < 1036*time_ms; ++x)
 	clrw	x
 	ldw	(0x03, sp), x
 	ldw	(0x01, sp), x
@@ -239,9 +239,9 @@ _delay:
 	ld	a, (0x01, sp)
 	sbc	a, (0x05, sp)
 	jrsge	00105$
-;	sensors.c: 41: __asm__("nop");
+;	sensors.c: 40: __asm__("nop");
 	nop
-;	sensors.c: 40: for (x = 0; x < 1036*time_ms; ++x)
+;	sensors.c: 39: for (x = 0; x < 1036*time_ms; ++x)
 	ldw	y, (0x03, sp)
 	addw	y, #0x0001
 	ld	a, (0x02, sp)
@@ -256,68 +256,68 @@ _delay:
 00105$:
 	addw	sp, #10
 	ret
-;	sensors.c: 43: void i2c_read (unsigned char *x) {
+;	sensors.c: 42: void i2c_read (unsigned char *x) {
 ;	-----------------------------------------
 ;	 function i2c_read
 ;	-----------------------------------------
 _i2c_read:
-;	sensors.c: 44: while ((I2C_SR1 & I2C_RXNE) == 0);
+;	sensors.c: 43: while ((I2C_SR1 & I2C_RXNE) == 0);
 00101$:
 	ldw	x, #0x5217
 	ld	a, (x)
 	bcp	a, #0x40
 	jreq	00101$
-;	sensors.c: 45: *x = I2C_DR;
+;	sensors.c: 44: *x = I2C_DR;
 	ldw	y, (0x03, sp)
 	ldw	x, #0x5216
 	ld	a, (x)
 	ld	(y), a
 	ret
-;	sensors.c: 47: void i2c_set_nak (void) {
+;	sensors.c: 46: void i2c_set_nak (void) {
 ;	-----------------------------------------
 ;	 function i2c_set_nak
 ;	-----------------------------------------
 _i2c_set_nak:
-;	sensors.c: 48: I2C_CR2 &= ~I2C_ACK;
+;	sensors.c: 47: I2C_CR2 &= ~I2C_ACK;
 	ldw	x, #0x5211
 	ld	a, (x)
 	and	a, #0xfb
 	ld	(x), a
 	ret
-;	sensors.c: 50: void i2c_set_stop (void) {
+;	sensors.c: 49: void i2c_set_stop (void) {
 ;	-----------------------------------------
 ;	 function i2c_set_stop
 ;	-----------------------------------------
 _i2c_set_stop:
-;	sensors.c: 51: I2C_CR2 |= I2C_STOP;
+;	sensors.c: 50: I2C_CR2 |= I2C_STOP;
 	ldw	x, #0x5211
 	ld	a, (x)
 	or	a, #0x02
 	ld	(x), a
 	ret
-;	sensors.c: 53: void i2c_send_reg (UCHAR addr) {
+;	sensors.c: 52: void i2c_send_reg (UCHAR addr) {
 ;	-----------------------------------------
 ;	 function i2c_send_reg
 ;	-----------------------------------------
 _i2c_send_reg:
 	sub	sp, #2
-;	sensors.c: 55: reg = I2C_SR1;
+;	sensors.c: 54: reg = I2C_SR1;
 	ldw	x, #0x5217
 	ld	a, (x)
 	clrw	x
 	ld	xl, a
 	ldw	(0x01, sp), x
-;	sensors.c: 56: reg = I2C_SR3;
+;	sensors.c: 55: reg = I2C_SR3;
 	ldw	x, #0x5219
 	ld	a, (x)
 	clrw	x
 	ld	xl, a
 	ldw	(0x01, sp), x
-;	sensors.c: 57: I2C_DR = addr;
+;	sensors.c: 56: I2C_DR = addr;
 	ldw	x, #0x5216
 	ld	a, (0x05, sp)
 	ld	(x), a
-;	sensors.c: 58: while ((I2C_SR1 & I2C_TXE) == 0);
+;	sensors.c: 57: while ((I2C_SR1 & I2C_TXE) == 0);
 00101$:
 	ldw	x, #0x5217
 	ld	a, (x)
@@ -325,51 +325,51 @@ _i2c_send_reg:
 	jrnc	00101$
 	addw	sp, #2
 	ret
-;	sensors.c: 62: void UARTPrintF (char *message) {
+;	sensors.c: 61: void UARTPrintF (char *message) {
 ;	-----------------------------------------
 ;	 function UARTPrintF
 ;	-----------------------------------------
 _UARTPrintF:
-;	sensors.c: 63: char *ch = message;
+;	sensors.c: 62: char *ch = message;
 	ldw	y, (0x03, sp)
-;	sensors.c: 64: while (*ch) {
+;	sensors.c: 63: while (*ch) {
 00104$:
 	ld	a, (y)
 	tnz	a
 	jreq	00107$
-;	sensors.c: 65: UART1_DR = (unsigned char) *ch;     //  Put the next character into the data transmission register.
+;	sensors.c: 64: UART1_DR = (unsigned char) *ch;     //  Put the next character into the data transmission register.
 	ldw	x, #0x5231
 	ld	(x), a
-;	sensors.c: 66: while ((UART1_SR & SR_TXE) == 0);   //  Wait for transmission to complete.
+;	sensors.c: 65: while ((UART1_SR & SR_TXE) == 0);   //  Wait for transmission to complete.
 00101$:
 	ldw	x, #0x5230
 	ld	a, (x)
 	sll	a
 	jrnc	00101$
-;	sensors.c: 67: ch++;                               //  Grab the next character.
+;	sensors.c: 66: ch++;                               //  Grab the next character.
 	incw	y
 	jra	00104$
 00107$:
 	ret
-;	sensors.c: 73: void i2c_send_address (UCHAR addr, UCHAR mode) {
+;	sensors.c: 72: void i2c_send_address (UCHAR addr, UCHAR mode) {
 ;	-----------------------------------------
 ;	 function i2c_send_address
 ;	-----------------------------------------
 _i2c_send_address:
 	sub	sp, #3
-;	sensors.c: 75: reg = I2C_SR1;
+;	sensors.c: 74: reg = I2C_SR1;
 	ldw	x, #0x5217
 	ld	a, (x)
 	clrw	x
 	ld	xl, a
 	ldw	(0x01, sp), x
-;	sensors.c: 76: I2C_DR = (addr << 1) | mode;
+;	sensors.c: 75: I2C_DR = (addr << 1) | mode;
 	ld	a, (0x06, sp)
 	sll	a
 	or	a, (0x07, sp)
 	ldw	x, #0x5216
 	ld	(x), a
-;	sensors.c: 77: if (mode == I2C_READ) {
+;	sensors.c: 76: if (mode == I2C_READ) {
 	ld	a, (0x07, sp)
 	cp	a, #0x01
 	jrne	00127$
@@ -381,524 +381,524 @@ _i2c_send_address:
 00128$:
 	tnz	(0x03, sp)
 	jreq	00103$
-;	sensors.c: 78: I2C_OARL = 0;
+;	sensors.c: 77: I2C_OARL = 0;
 	ldw	x, #0x5213
 	clr	(x)
-;	sensors.c: 79: I2C_OARH = 0;
+;	sensors.c: 78: I2C_OARH = 0;
 	ldw	x, #0x5214
 	clr	(x)
-;	sensors.c: 82: while ((I2C_SR1 & I2C_ADDR) == 0);
+;	sensors.c: 81: while ((I2C_SR1 & I2C_ADDR) == 0);
 00103$:
-;	sensors.c: 75: reg = I2C_SR1;
+;	sensors.c: 74: reg = I2C_SR1;
 	ldw	x, #0x5217
 	ld	a, (x)
-;	sensors.c: 82: while ((I2C_SR1 & I2C_ADDR) == 0);
+;	sensors.c: 81: while ((I2C_SR1 & I2C_ADDR) == 0);
 	bcp	a, #0x02
 	jreq	00103$
-;	sensors.c: 83: if (mode == I2C_READ)
+;	sensors.c: 82: if (mode == I2C_READ)
 	tnz	(0x03, sp)
 	jreq	00108$
-;	sensors.c: 84: UNSET (I2C_SR1, I2C_ADDR);
+;	sensors.c: 83: UNSET (I2C_SR1, I2C_ADDR);
 	and	a, #0xfd
 	ldw	x, #0x5217
 	ld	(x), a
 00108$:
 	addw	sp, #3
 	ret
-;	sensors.c: 87: void i2c_set_start_ack (void) {
+;	sensors.c: 86: void i2c_set_start_ack (void) {
 ;	-----------------------------------------
 ;	 function i2c_set_start_ack
 ;	-----------------------------------------
 _i2c_set_start_ack:
-;	sensors.c: 88: I2C_CR2 = I2C_ACK | I2C_START;
+;	sensors.c: 87: I2C_CR2 = I2C_ACK | I2C_START;
 	ldw	x, #0x5211
 	ld	a, #0x05
 	ld	(x), a
-;	sensors.c: 89: while ((I2C_SR1 & I2C_SB) == 0);
+;	sensors.c: 88: while ((I2C_SR1 & I2C_SB) == 0);
 00101$:
 	ldw	x, #0x5217
 	ld	a, (x)
 	srl	a
 	jrnc	00101$
 	ret
-;	sensors.c: 96: void print_byte_hex (unsigned char buffer) {
+;	sensors.c: 95: void print_byte_hex (unsigned char buffer) {
 ;	-----------------------------------------
 ;	 function print_byte_hex
 ;	-----------------------------------------
 _print_byte_hex:
 	sub	sp, #12
-;	sensors.c: 99: a = (buffer >> 4);
+;	sensors.c: 98: a = (buffer >> 4);
 	ld	a, (0x0f, sp)
 	swap	a
 	and	a, #0x0f
 	clrw	x
 	ld	xl, a
-;	sensors.c: 100: if (a > 9)
+;	sensors.c: 99: if (a > 9)
 	cpw	x, #0x0009
 	jrsle	00102$
-;	sensors.c: 101: a = a + 'a' - 10;
+;	sensors.c: 100: a = a + 'a' - 10;
 	addw	x, #0x0057
-	ldw	(0x0b, sp), x
+	ldw	(0x03, sp), x
 	jra	00103$
 00102$:
-;	sensors.c: 103: a += '0'; 
+;	sensors.c: 102: a += '0'; 
 	addw	x, #0x0030
-	ldw	(0x0b, sp), x
+	ldw	(0x03, sp), x
 00103$:
-;	sensors.c: 104: b = buffer & 0x0f;
+;	sensors.c: 103: b = buffer & 0x0f;
 	ld	a, (0x0f, sp)
 	and	a, #0x0f
 	clrw	x
 	ld	xl, a
-;	sensors.c: 105: if (b > 9)
+;	sensors.c: 104: if (b > 9)
 	cpw	x, #0x0009
 	jrsle	00105$
-;	sensors.c: 106: b = b + 'a' - 10;
+;	sensors.c: 105: b = b + 'a' - 10;
 	addw	x, #0x0057
-	ldw	(0x09, sp), x
+	ldw	(0x01, sp), x
 	jra	00106$
 00105$:
-;	sensors.c: 108: b += '0'; 
+;	sensors.c: 107: b += '0'; 
 	addw	x, #0x0030
-	ldw	(0x09, sp), x
+	ldw	(0x01, sp), x
 00106$:
-;	sensors.c: 109: message[0] = a;
+;	sensors.c: 108: message[0] = a;
 	ldw	y, sp
-	incw	y
-	ld	a, (0x0c, sp)
+	addw	y, #5
+	ld	a, (0x04, sp)
 	ld	(y), a
-;	sensors.c: 110: message[1] = b;
+;	sensors.c: 109: message[1] = b;
 	ldw	x, y
 	incw	x
-	ld	a, (0x0a, sp)
+	ld	a, (0x02, sp)
 	ld	(x), a
-;	sensors.c: 111: message[2] = 0;
+;	sensors.c: 110: message[2] = 0;
 	ldw	x, y
 	incw	x
 	incw	x
 	clr	(x)
-;	sensors.c: 112: UARTPrintF (message);
+;	sensors.c: 111: UARTPrintF (message);
 	pushw	y
 	call	_UARTPrintF
 	addw	sp, #2
 	addw	sp, #12
 	ret
-;	sensors.c: 116: unsigned char i2c_read_register (UCHAR addr, UCHAR rg) {
+;	sensors.c: 115: unsigned char i2c_read_register (UCHAR addr, UCHAR rg) {
 ;	-----------------------------------------
 ;	 function i2c_read_register
 ;	-----------------------------------------
 _i2c_read_register:
 	sub	sp, #2
-;	sensors.c: 119: i2c_set_start_ack ();
+;	sensors.c: 118: i2c_set_start_ack ();
 	call	_i2c_set_start_ack
-;	sensors.c: 120: i2c_send_address (addr, I2C_WRITE);
+;	sensors.c: 119: i2c_send_address (addr, I2C_WRITE);
 	push	#0x00
 	ld	a, (0x06, sp)
 	push	a
 	call	_i2c_send_address
 	addw	sp, #2
-;	sensors.c: 121: i2c_send_reg (rg);
+;	sensors.c: 120: i2c_send_reg (rg);
 	ld	a, (0x06, sp)
 	push	a
 	call	_i2c_send_reg
 	pop	a
-;	sensors.c: 122: i2c_set_start_ack ();
+;	sensors.c: 121: i2c_set_start_ack ();
 	call	_i2c_set_start_ack
-;	sensors.c: 123: i2c_send_address (addr, I2C_READ);
+;	sensors.c: 122: i2c_send_address (addr, I2C_READ);
 	push	#0x01
 	ld	a, (0x06, sp)
 	push	a
 	call	_i2c_send_address
 	addw	sp, #2
-;	sensors.c: 124: reg = I2C_SR1;
+;	sensors.c: 123: reg = I2C_SR1;
 	ldw	x, #0x5217
 	ld	a, (x)
 	ld	(0x01, sp), a
-;	sensors.c: 125: reg = I2C_SR3;
+;	sensors.c: 124: reg = I2C_SR3;
 	ldw	x, #0x5219
 	ld	a, (x)
 	ld	(0x01, sp), a
-;	sensors.c: 126: i2c_set_nak ();
+;	sensors.c: 125: i2c_set_nak ();
 	call	_i2c_set_nak
-;	sensors.c: 127: i2c_set_stop ();
+;	sensors.c: 126: i2c_set_stop ();
 	call	_i2c_set_stop
-;	sensors.c: 128: i2c_read (&x);
+;	sensors.c: 127: i2c_read (&x);
 	ldw	x, sp
 	incw	x
 	incw	x
 	pushw	x
 	call	_i2c_read
 	addw	sp, #2
-;	sensors.c: 129: return (x);
+;	sensors.c: 128: return (x);
 	ld	a, (0x02, sp)
 	addw	sp, #2
 	ret
-;	sensors.c: 132: void InitializeI2C (void) {
+;	sensors.c: 131: void InitializeI2C (void) {
 ;	-----------------------------------------
 ;	 function InitializeI2C
 ;	-----------------------------------------
 _InitializeI2C:
-;	sensors.c: 133: I2C_CR1 = 0;   //  Disable I2C before configuration starts. PE bit is bit 0
+;	sensors.c: 132: I2C_CR1 = 0;   //  Disable I2C before configuration starts. PE bit is bit 0
 	ldw	x, #0x5210
 	clr	(x)
-;	sensors.c: 137: I2C_FREQR = 16;                     //  Set the internal clock frequency (MHz).
+;	sensors.c: 136: I2C_FREQR = 16;                     //  Set the internal clock frequency (MHz).
 	ldw	x, #0x5212
 	ld	a, #0x10
 	ld	(x), a
-;	sensors.c: 138: UNSET (I2C_CCRH, I2C_FS);           //  I2C running is standard mode.
+;	sensors.c: 137: UNSET (I2C_CCRH, I2C_FS);           //  I2C running is standard mode.
 	bres	0x521c, #7
-;	sensors.c: 140: I2C_CCRL = 0xa0;                    //  SCL clock speed is 50 kHz.
+;	sensors.c: 139: I2C_CCRL = 0xa0;                    //  SCL clock speed is 50 kHz.
 	ldw	x, #0x521b
 	ld	a, #0xa0
 	ld	(x), a
-;	sensors.c: 142: I2C_CCRH &= 0x00;	// Clears lower 4 bits "CCR"
+;	sensors.c: 141: I2C_CCRH &= 0x00;	// Clears lower 4 bits "CCR"
 	ldw	x, #0x521c
 	clr	(x)
-;	sensors.c: 146: UNSET (I2C_OARH, I2C_ADDMODE);      //  7 bit address mode.
+;	sensors.c: 145: UNSET (I2C_OARH, I2C_ADDMODE);      //  7 bit address mode.
 	bres	0x5214, #7
-;	sensors.c: 147: SET (I2C_OARH, I2C_ADDCONF);        //  Docs say this must always be 1.
+;	sensors.c: 146: SET (I2C_OARH, I2C_ADDCONF);        //  Docs say this must always be 1.
 	ldw	x, #0x5214
 	ld	a, (x)
 	or	a, #0x40
 	ld	(x), a
-;	sensors.c: 151: I2C_TRISER = 17;
+;	sensors.c: 150: I2C_TRISER = 17;
 	ldw	x, #0x521d
 	ld	a, #0x11
 	ld	(x), a
-;	sensors.c: 159: I2C_CR1 = I2C_PE;	// Enables port
+;	sensors.c: 158: I2C_CR1 = I2C_PE;	// Enables port
 	ldw	x, #0x5210
 	ld	a, #0x01
 	ld	(x), a
 	ret
-;	sensors.c: 165: void InitializeUART() {
+;	sensors.c: 164: void InitializeUART() {
 ;	-----------------------------------------
 ;	 function InitializeUART
 ;	-----------------------------------------
 _InitializeUART:
-;	sensors.c: 175: UART1_CR1 = 0;
+;	sensors.c: 174: UART1_CR1 = 0;
 	ldw	x, #0x5234
 	clr	(x)
-;	sensors.c: 176: UART1_CR2 = 0;
+;	sensors.c: 175: UART1_CR2 = 0;
 	ldw	x, #0x5235
 	clr	(x)
-;	sensors.c: 177: UART1_CR4 = 0;
+;	sensors.c: 176: UART1_CR4 = 0;
 	ldw	x, #0x5237
 	clr	(x)
-;	sensors.c: 178: UART1_CR3 = 0;
+;	sensors.c: 177: UART1_CR3 = 0;
 	ldw	x, #0x5236
 	clr	(x)
-;	sensors.c: 179: UART1_CR5 = 0;
+;	sensors.c: 178: UART1_CR5 = 0;
 	ldw	x, #0x5238
 	clr	(x)
-;	sensors.c: 180: UART1_GTR = 0;
+;	sensors.c: 179: UART1_GTR = 0;
 	ldw	x, #0x5239
 	clr	(x)
-;	sensors.c: 181: UART1_PSCR = 0;
+;	sensors.c: 180: UART1_PSCR = 0;
 	ldw	x, #0x523a
 	clr	(x)
-;	sensors.c: 185: UNSET (UART1_CR1, CR1_M);        //  8 Data bits.
+;	sensors.c: 184: UNSET (UART1_CR1, CR1_M);        //  8 Data bits.
 	ldw	x, #0x5234
 	ld	a, (x)
 	and	a, #0xef
 	ld	(x), a
-;	sensors.c: 186: UNSET (UART1_CR1, CR1_PCEN);     //  Disable parity.
+;	sensors.c: 185: UNSET (UART1_CR1, CR1_PCEN);     //  Disable parity.
 	ldw	x, #0x5234
 	ld	a, (x)
 	and	a, #0xfb
 	ld	(x), a
-;	sensors.c: 187: UNSET (UART1_CR3, CR3_STOPH);    //  1 stop bit.
+;	sensors.c: 186: UNSET (UART1_CR3, CR3_STOPH);    //  1 stop bit.
 	ldw	x, #0x5236
 	ld	a, (x)
 	and	a, #0xdf
 	ld	(x), a
-;	sensors.c: 188: UNSET (UART1_CR3, CR3_STOPL);    //  1 stop bit.
+;	sensors.c: 187: UNSET (UART1_CR3, CR3_STOPL);    //  1 stop bit.
 	ldw	x, #0x5236
 	ld	a, (x)
 	and	a, #0xef
 	ld	(x), a
-;	sensors.c: 189: UART1_BRR2 = 0x0a;      //  Set the baud rate registers to 115200 baud
+;	sensors.c: 188: UART1_BRR2 = 0x0a;      //  Set the baud rate registers to 115200 baud
 	ldw	x, #0x5233
 	ld	a, #0x0a
 	ld	(x), a
-;	sensors.c: 190: UART1_BRR1 = 0x08;      //  based upon a 16 MHz system clock.
+;	sensors.c: 189: UART1_BRR1 = 0x08;      //  based upon a 16 MHz system clock.
 	ldw	x, #0x5232
 	ld	a, #0x08
 	ld	(x), a
-;	sensors.c: 194: UNSET (UART1_CR2, CR2_TEN);      //  Disable transmit.
+;	sensors.c: 193: UNSET (UART1_CR2, CR2_TEN);      //  Disable transmit.
 	ldw	x, #0x5235
 	ld	a, (x)
 	and	a, #0xf7
 	ld	(x), a
-;	sensors.c: 195: UNSET (UART1_CR2, CR2_REN);      //  Disable receive.
+;	sensors.c: 194: UNSET (UART1_CR2, CR2_REN);      //  Disable receive.
 	ldw	x, #0x5235
 	ld	a, (x)
 	and	a, #0xfb
 	ld	(x), a
-;	sensors.c: 199: SET (UART1_CR3, CR3_CPOL);
+;	sensors.c: 198: SET (UART1_CR3, CR3_CPOL);
 	ldw	x, #0x5236
 	ld	a, (x)
 	or	a, #0x04
 	ld	(x), a
-;	sensors.c: 200: SET (UART1_CR3, CR3_CPHA);
+;	sensors.c: 199: SET (UART1_CR3, CR3_CPHA);
 	ldw	x, #0x5236
 	ld	a, (x)
 	or	a, #0x02
 	ld	(x), a
-;	sensors.c: 201: SET (UART1_CR3, CR3_LBCL);
+;	sensors.c: 200: SET (UART1_CR3, CR3_LBCL);
 	bset	0x5236, #0
-;	sensors.c: 205: SET (UART1_CR2, CR2_TEN);
+;	sensors.c: 204: SET (UART1_CR2, CR2_TEN);
 	ldw	x, #0x5235
 	ld	a, (x)
 	or	a, #0x08
 	ld	(x), a
-;	sensors.c: 206: SET (UART1_CR2, CR2_REN);
+;	sensors.c: 205: SET (UART1_CR2, CR2_REN);
 	ldw	x, #0x5235
 	ld	a, (x)
 	or	a, #0x04
 	ld	(x), a
-;	sensors.c: 207: UART1_CR3 = CR3_CLKEN;
+;	sensors.c: 206: UART1_CR3 = CR3_CLKEN;
 	ldw	x, #0x5236
 	ld	a, #0x08
 	ld	(x), a
 	ret
-;	sensors.c: 235: void tm1637Init(void)
+;	sensors.c: 234: void tm1637Init(void)
 ;	-----------------------------------------
 ;	 function tm1637Init
 ;	-----------------------------------------
 _tm1637Init:
-;	sensors.c: 237: tm1637SetBrightness(8);
+;	sensors.c: 236: tm1637SetBrightness(8);
 	push	#0x08
 	call	_tm1637SetBrightness
 	pop	a
 	ret
-;	sensors.c: 242: void tm1637DisplayDecimal(long TT,unsigned int displaySeparator)
+;	sensors.c: 241: void tm1637DisplayDecimal(long TT,unsigned int displaySeparator)
 ;	-----------------------------------------
 ;	 function tm1637DisplayDecimal
 ;	-----------------------------------------
 _tm1637DisplayDecimal:
 	sub	sp, #19
-;	sensors.c: 244: unsigned int v = TT & 0x0000FFFF;
+;	sensors.c: 243: unsigned int v = TT & 0x0000FFFF;
 	ld	a, (0x19, sp)
 	ld	xl, a
 	ld	a, (0x18, sp)
 	ld	xh, a
-	clr	(0x0d, sp)
+	clr	(0x0c, sp)
 	clr	a
-	ldw	(0x07, sp), x
-;	sensors.c: 250: for (ii = 0; ii < 4; ++ii) {
+	ldw	(0x05, sp), x
+;	sensors.c: 249: for (ii = 0; ii < 4; ++ii) {
 	ldw	x, sp
 	incw	x
-	ldw	(0x10, sp), x
+	ldw	(0x09, sp), x
 	ldw	x, #_segmentMap+0
 	ldw	(0x12, sp), x
 	clrw	y
 00106$:
-;	sensors.c: 251: digitArr[ii] = segmentMap[v % 10];
+;	sensors.c: 250: digitArr[ii] = segmentMap[v % 10];
 	ldw	x, y
-	addw	x, (0x10, sp)
-	ldw	(0x09, sp), x
+	addw	x, (0x09, sp)
+	ldw	(0x10, sp), x
 	pushw	y
-	ldw	x, (0x09, sp)
+	ldw	x, (0x07, sp)
 	ldw	y, #0x000a
 	divw	x, y
 	ldw	x, y
 	popw	y
 	addw	x, (0x12, sp)
 	ld	a, (x)
-	ldw	x, (0x09, sp)
+	ldw	x, (0x10, sp)
 	ld	(x), a
-;	sensors.c: 252: if (ii == 2 && displaySeparator) {
+;	sensors.c: 251: if (ii == 2 && displaySeparator) {
 	cpw	y, #0x0002
 	jrne	00102$
 	ldw	x, (0x1a, sp)
 	jreq	00102$
-;	sensors.c: 253: digitArr[ii] |= 1 << 7;
-	ldw	x, (0x09, sp)
+;	sensors.c: 252: digitArr[ii] |= 1 << 7;
+	ldw	x, (0x10, sp)
 	ld	a, (x)
 	or	a, #0x80
-	ldw	x, (0x09, sp)
+	ldw	x, (0x10, sp)
 	ld	(x), a
 00102$:
-;	sensors.c: 255: v /= 10;
+;	sensors.c: 254: v /= 10;
 	pushw	y
-	ldw	x, (0x09, sp)
+	ldw	x, (0x07, sp)
 	ldw	y, #0x000a
 	divw	x, y
 	popw	y
-	ldw	(0x07, sp), x
-;	sensors.c: 250: for (ii = 0; ii < 4; ++ii) {
+	ldw	(0x05, sp), x
+;	sensors.c: 249: for (ii = 0; ii < 4; ++ii) {
 	incw	y
 	cpw	y, #0x0004
 	jrc	00106$
-;	sensors.c: 258: _tm1637Start();
+;	sensors.c: 257: _tm1637Start();
 	call	__tm1637Start
-;	sensors.c: 259: _tm1637WriteByte(0x40);
+;	sensors.c: 258: _tm1637WriteByte(0x40);
 	push	#0x40
 	call	__tm1637WriteByte
 	pop	a
-;	sensors.c: 260: _tm1637ReadResult();
+;	sensors.c: 259: _tm1637ReadResult();
 	call	__tm1637ReadResult
-;	sensors.c: 261: _tm1637Stop();
+;	sensors.c: 260: _tm1637Stop();
 	call	__tm1637Stop
-;	sensors.c: 263: _tm1637Start();
+;	sensors.c: 262: _tm1637Start();
 	call	__tm1637Start
-;	sensors.c: 264: _tm1637WriteByte(0xc0);
+;	sensors.c: 263: _tm1637WriteByte(0xc0);
 	push	#0xc0
 	call	__tm1637WriteByte
 	pop	a
-;	sensors.c: 265: _tm1637ReadResult();
+;	sensors.c: 264: _tm1637ReadResult();
 	call	__tm1637ReadResult
-;	sensors.c: 267: for (ii = 0; ii < 4; ++ii) {
+;	sensors.c: 266: for (ii = 0; ii < 4; ++ii) {
 	clrw	x
-	ldw	(0x05, sp), x
+	ldw	(0x07, sp), x
 00108$:
-;	sensors.c: 268: _tm1637WriteByte(digitArr[3 - ii]);
-	ld	a, (0x06, sp)
-	ld	(0x0b, sp), a
+;	sensors.c: 267: _tm1637WriteByte(digitArr[3 - ii]);
+	ld	a, (0x08, sp)
+	ld	(0x0f, sp), a
 	ld	a, #0x03
-	sub	a, (0x0b, sp)
+	sub	a, (0x0f, sp)
 	clrw	x
 	ld	xl, a
-	addw	x, (0x10, sp)
+	addw	x, (0x09, sp)
 	ld	a, (x)
 	push	a
 	call	__tm1637WriteByte
 	pop	a
-;	sensors.c: 269: _tm1637ReadResult();
+;	sensors.c: 268: _tm1637ReadResult();
 	call	__tm1637ReadResult
-;	sensors.c: 267: for (ii = 0; ii < 4; ++ii) {
-	ldw	x, (0x05, sp)
+;	sensors.c: 266: for (ii = 0; ii < 4; ++ii) {
+	ldw	x, (0x07, sp)
 	incw	x
-	ldw	(0x05, sp), x
-	ldw	x, (0x05, sp)
+	ldw	(0x07, sp), x
+	ldw	x, (0x07, sp)
 	cpw	x, #0x0004
 	jrc	00108$
-;	sensors.c: 272: _tm1637Stop();
+;	sensors.c: 271: _tm1637Stop();
 	call	__tm1637Stop
 	addw	sp, #19
 	ret
-;	sensors.c: 277: void tm1637SetBrightness(char brightness)
+;	sensors.c: 276: void tm1637SetBrightness(char brightness)
 ;	-----------------------------------------
 ;	 function tm1637SetBrightness
 ;	-----------------------------------------
 _tm1637SetBrightness:
-;	sensors.c: 284: _tm1637Start();
+;	sensors.c: 283: _tm1637Start();
 	call	__tm1637Start
-;	sensors.c: 285: _tm1637WriteByte(0x87 + brightness);
+;	sensors.c: 284: _tm1637WriteByte(0x87 + brightness);
 	ld	a, (0x03, sp)
 	add	a, #0x87
 	push	a
 	call	__tm1637WriteByte
 	pop	a
-;	sensors.c: 286: _tm1637ReadResult();
+;	sensors.c: 285: _tm1637ReadResult();
 	call	__tm1637ReadResult
-;	sensors.c: 287: _tm1637Stop();
+;	sensors.c: 286: _tm1637Stop();
 	jp	__tm1637Stop
-;	sensors.c: 290: void _tm1637Start(void)
+;	sensors.c: 289: void _tm1637Start(void)
 ;	-----------------------------------------
 ;	 function _tm1637Start
 ;	-----------------------------------------
 __tm1637Start:
-;	sensors.c: 292: _tm1637ClkHigh();
+;	sensors.c: 291: _tm1637ClkHigh();
 	call	__tm1637ClkHigh
-;	sensors.c: 293: _tm1637DioHigh();
+;	sensors.c: 292: _tm1637DioHigh();
 	call	__tm1637DioHigh
-;	sensors.c: 294: delay(5);
+;	sensors.c: 293: delay(5);
 	push	#0x05
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 295: _tm1637DioLow();
+;	sensors.c: 294: _tm1637DioLow();
 	jp	__tm1637DioLow
-;	sensors.c: 298: void _tm1637Stop(void)
+;	sensors.c: 297: void _tm1637Stop(void)
 ;	-----------------------------------------
 ;	 function _tm1637Stop
 ;	-----------------------------------------
 __tm1637Stop:
-;	sensors.c: 300: _tm1637ClkLow();
+;	sensors.c: 299: _tm1637ClkLow();
 	call	__tm1637ClkLow
-;	sensors.c: 301: delay(5);
+;	sensors.c: 300: delay(5);
 	push	#0x05
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 302: _tm1637DioLow();
+;	sensors.c: 301: _tm1637DioLow();
 	call	__tm1637DioLow
-;	sensors.c: 303: delay(5);
+;	sensors.c: 302: delay(5);
 	push	#0x05
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 304: _tm1637ClkHigh();
+;	sensors.c: 303: _tm1637ClkHigh();
 	call	__tm1637ClkHigh
-;	sensors.c: 305: delay(5);
+;	sensors.c: 304: delay(5);
 	push	#0x05
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 306: _tm1637DioHigh();
+;	sensors.c: 305: _tm1637DioHigh();
 	jp	__tm1637DioHigh
-;	sensors.c: 309: void _tm1637ReadResult(void)
+;	sensors.c: 308: void _tm1637ReadResult(void)
 ;	-----------------------------------------
 ;	 function _tm1637ReadResult
 ;	-----------------------------------------
 __tm1637ReadResult:
-;	sensors.c: 311: _tm1637ClkLow();
+;	sensors.c: 310: _tm1637ClkLow();
 	call	__tm1637ClkLow
-;	sensors.c: 312: delay(5);
+;	sensors.c: 311: delay(5);
 	push	#0x05
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 314: _tm1637ClkHigh();
+;	sensors.c: 313: _tm1637ClkHigh();
 	call	__tm1637ClkHigh
-;	sensors.c: 315: delay(5);
+;	sensors.c: 314: delay(5);
 	push	#0x05
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 316: _tm1637ClkLow();
+;	sensors.c: 315: _tm1637ClkLow();
 	jp	__tm1637ClkLow
-;	sensors.c: 319: void _tm1637WriteByte(unsigned char b)
+;	sensors.c: 318: void _tm1637WriteByte(unsigned char b)
 ;	-----------------------------------------
 ;	 function _tm1637WriteByte
 ;	-----------------------------------------
 __tm1637WriteByte:
 	sub	sp, #2
-;	sensors.c: 321: for (ii = 0; ii < 8; ++ii) {
+;	sensors.c: 320: for (ii = 0; ii < 8; ++ii) {
 	clrw	x
 	ldw	(0x01, sp), x
 00105$:
-;	sensors.c: 322: _tm1637ClkLow();
+;	sensors.c: 321: _tm1637ClkLow();
 	call	__tm1637ClkLow
-;	sensors.c: 323: if (b & 0x01) {
+;	sensors.c: 322: if (b & 0x01) {
 	ld	a, (0x05, sp)
 	srl	a
 	jrnc	00102$
-;	sensors.c: 324: _tm1637DioHigh();
+;	sensors.c: 323: _tm1637DioHigh();
 	call	__tm1637DioHigh
 	jra	00103$
 00102$:
-;	sensors.c: 327: _tm1637DioLow();
+;	sensors.c: 326: _tm1637DioLow();
 	call	__tm1637DioLow
 00103$:
-;	sensors.c: 329: delay(15);
+;	sensors.c: 328: delay(15);
 	push	#0x0f
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 330: b >>= 1;
+;	sensors.c: 329: b >>= 1;
 	ld	a, (0x05, sp)
 	srl	a
 	ld	(0x05, sp), a
-;	sensors.c: 331: _tm1637ClkHigh();
+;	sensors.c: 330: _tm1637ClkHigh();
 	call	__tm1637ClkHigh
-;	sensors.c: 332: delay(15);
+;	sensors.c: 331: delay(15);
 	push	#0x0f
 	push	#0x00
 	call	_delay
 	addw	sp, #2
-;	sensors.c: 321: for (ii = 0; ii < 8; ++ii) {
+;	sensors.c: 320: for (ii = 0; ii < 8; ++ii) {
 	ldw	x, (0x01, sp)
 	incw	x
 	ldw	(0x01, sp), x
@@ -907,133 +907,133 @@ __tm1637WriteByte:
 	jrslt	00105$
 	addw	sp, #2
 	ret
-;	sensors.c: 338: void _tm1637ClkHigh(void)
+;	sensors.c: 337: void _tm1637ClkHigh(void)
 ;	-----------------------------------------
 ;	 function _tm1637ClkHigh
 ;	-----------------------------------------
 __tm1637ClkHigh:
-;	sensors.c: 343: PD_ODR |= 1 << 2;
+;	sensors.c: 342: PD_ODR |= 1 << 2;
 	ldw	x, #0x500f
 	ld	a, (x)
 	or	a, #0x04
 	ld	(x), a
 	ret
-;	sensors.c: 346: void _tm1637ClkLow(void)
+;	sensors.c: 345: void _tm1637ClkLow(void)
 ;	-----------------------------------------
 ;	 function _tm1637ClkLow
 ;	-----------------------------------------
 __tm1637ClkLow:
-;	sensors.c: 350: PD_ODR &= ~(1 << 2);
+;	sensors.c: 349: PD_ODR &= ~(1 << 2);
 	ldw	x, #0x500f
 	ld	a, (x)
 	and	a, #0xfb
 	ld	(x), a
 	ret
-;	sensors.c: 356: void _tm1637DioHigh(void)
+;	sensors.c: 355: void _tm1637DioHigh(void)
 ;	-----------------------------------------
 ;	 function _tm1637DioHigh
 ;	-----------------------------------------
 __tm1637DioHigh:
-;	sensors.c: 360: PD_ODR |= 1 << 3;
+;	sensors.c: 359: PD_ODR |= 1 << 3;
 	ldw	x, #0x500f
 	ld	a, (x)
 	or	a, #0x08
 	ld	(x), a
 	ret
-;	sensors.c: 364: void _tm1637DioLow(void)
+;	sensors.c: 363: void _tm1637DioLow(void)
 ;	-----------------------------------------
 ;	 function _tm1637DioLow
 ;	-----------------------------------------
 __tm1637DioLow:
-;	sensors.c: 366: PD_ODR &= ~(1 << 3);
+;	sensors.c: 365: PD_ODR &= ~(1 << 3);
 	ldw	x, #0x500f
 	ld	a, (x)
 	and	a, #0xf7
 	ld	(x), a
 	ret
-;	sensors.c: 380: int main () {
+;	sensors.c: 379: int main () {
 ;	-----------------------------------------
 ;	 function main
 ;	-----------------------------------------
 _main:
 	sub	sp, #28
-;	sensors.c: 387: InitializeSystemClock();
+;	sensors.c: 386: InitializeSystemClock();
 	call	_InitializeSystemClock
-;	sensors.c: 390: PD_DDR = (1 << 3) | (1 << 2); // output mode
+;	sensors.c: 389: PD_DDR = (1 << 3) | (1 << 2); // output mode
 	ldw	x, #0x5011
 	ld	a, #0x0c
 	ld	(x), a
-;	sensors.c: 391: PD_CR1 = (1 << 3) | (1 << 2); // push-pull
+;	sensors.c: 390: PD_CR1 = (1 << 3) | (1 << 2); // push-pull
 	ldw	x, #0x5012
 	ld	a, #0x0c
 	ld	(x), a
-;	sensors.c: 392: PD_CR2 = (1 << 3) | (1 << 2); // up to 10MHz speed
+;	sensors.c: 391: PD_CR2 = (1 << 3) | (1 << 2); // up to 10MHz speed
 	ldw	x, #0x5013
 	ld	a, #0x0c
 	ld	(x), a
-;	sensors.c: 393: tm1637Init();
+;	sensors.c: 392: tm1637Init();
 	call	_tm1637Init
-;	sensors.c: 395: InitializeUART();
+;	sensors.c: 394: InitializeUART();
 	call	_InitializeUART
-;	sensors.c: 396: InitializeI2C();
+;	sensors.c: 395: InitializeI2C();
 	call	_InitializeI2C
-;	sensors.c: 399: while (1) {
+;	sensors.c: 398: while (1) {
 00114$:
-;	sensors.c: 401: i2c_set_start_ack ();
+;	sensors.c: 400: i2c_set_start_ack ();
 	call	_i2c_set_start_ack
-;	sensors.c: 402: i2c_send_address (MLX90614_ADDR, I2C_WRITE);
+;	sensors.c: 401: i2c_send_address (MLX90614_ADDR, I2C_WRITE);
 	push	#0x00
 	push	#0x5a
 	call	_i2c_send_address
 	addw	sp, #2
-;	sensors.c: 403: i2c_send_reg(0x07); // object temperature		
+;	sensors.c: 402: i2c_send_reg(0x07); // object temperature		
 	push	#0x07
 	call	_i2c_send_reg
 	pop	a
-;	sensors.c: 405: i2c_set_start_ack ();
+;	sensors.c: 404: i2c_set_start_ack ();
 	call	_i2c_set_start_ack
-;	sensors.c: 406: i2c_send_address (MLX90614_ADDR, I2C_READ);
+;	sensors.c: 405: i2c_send_address (MLX90614_ADDR, I2C_READ);
 	push	#0x01
 	push	#0x5a
 	call	_i2c_send_address
 	addw	sp, #2
-;	sensors.c: 407: reg = I2C_SR1;
+;	sensors.c: 406: reg = I2C_SR1;
 	ldw	x, #0x5217
 	ld	a, (x)
 	clrw	x
 	ld	xl, a
-	ldw	(0x0c, sp), x
-;	sensors.c: 408: reg = I2C_SR3;
+	ldw	(0x0a, sp), x
+;	sensors.c: 407: reg = I2C_SR3;
 	ldw	x, #0x5219
 	ld	a, (x)
 	clrw	x
 	ld	xl, a
-	ldw	(0x0c, sp), x
-;	sensors.c: 410: i2c_set_nak();
+	ldw	(0x0a, sp), x
+;	sensors.c: 409: i2c_set_nak();
 	call	_i2c_set_nak
-;	sensors.c: 412: i2c_read (&x);
+;	sensors.c: 411: i2c_read (&x);
 	ldw	x, sp
-	addw	x, #14
+	addw	x, #12
 	ldw	y, x
 	pushw	x
 	pushw	y
 	call	_i2c_read
 	addw	sp, #2
 	popw	x
-;	sensors.c: 413: p1=x;
-	ld	a, (0x0e, sp)
-	ld	(0x0b, sp), a
-;	sensors.c: 414: i2c_read (&x);
+;	sensors.c: 412: p1=x;
+	ld	a, (0x0c, sp)
+	ld	(0x03, sp), a
+;	sensors.c: 413: i2c_read (&x);
 	pushw	x
 	call	_i2c_read
 	addw	sp, #2
-;	sensors.c: 415: p2=x;
-	ld	a, (0x0e, sp)
-;	sensors.c: 416: i2c_set_stop ();
+;	sensors.c: 414: p2=x;
+	ld	a, (0x0c, sp)
+;	sensors.c: 415: i2c_set_stop ();
 	push	a
 	call	_i2c_set_stop
 	pop	a
-;	sensors.c: 418: objTemp = ((((p2&0x007f)<<8)+p1)*2)-27315; //subtract kelvin for celcius
+;	sensors.c: 417: objTemp = ((((p2&0x007f)<<8)+p1)*2)-27315; //subtract kelvin for celcius
 	and	a, #0x7f
 	clrw	x
 	ld	xl, a
@@ -1045,176 +1045,176 @@ _main:
 	sllw	x
 	sllw	x
 	sllw	x
-	ld	a, (0x0b, sp)
-	ld	(0x16, sp), a
-	ld	a, (0x16, sp)
+	ld	a, (0x03, sp)
+	ld	(0x1c, sp), a
+	ld	a, (0x1c, sp)
 	rlc	a
 	clr	a
 	sbc	a, #0x00
-	ld	(0x15, sp), a
-	addw	x, (0x15, sp)
+	ld	(0x1b, sp), a
+	addw	x, (0x1b, sp)
 	sllw	x
 	subw	x, #0x6ab3
 	pushw	x
 	call	___sint2fs
 	addw	sp, #2
-	ldw	(0x09, sp), x
-	ldw	(0x07, sp), y
-;	sensors.c: 421: while (objTemp > 1000) {
+	ldw	(0x0f, sp), x
+	ldw	(0x0d, sp), y
+;	sensors.c: 420: while (objTemp > 1000) {
 	clrw	x
-	ldw	(0x01, sp), x
+	ldw	(0x04, sp), x
 00101$:
 	clrw	x
 	pushw	x
 	push	#0x7a
 	push	#0x44
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fsgt
 	addw	sp, #8
 	tnz	a
 	jreq	00127$
-;	sensors.c: 422: vierde+=1;
-	ldw	x, (0x01, sp)
+;	sensors.c: 421: vierde+=1;
+	ldw	x, (0x04, sp)
 	incw	x
-	ldw	(0x01, sp), x
-;	sensors.c: 423: objTemp-=1000;
+	ldw	(0x04, sp), x
+;	sensors.c: 422: objTemp-=1000;
 	clrw	x
 	pushw	x
 	push	#0x7a
 	push	#0x44
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fssub
 	addw	sp, #8
-	ldw	(0x09, sp), x
-	ldw	(0x07, sp), y
+	ldw	(0x0f, sp), x
+	ldw	(0x0d, sp), y
 	jra	00101$
-;	sensors.c: 425: while (objTemp > 100) {
+;	sensors.c: 424: while (objTemp > 100) {
 00127$:
-	ldw	y, (0x01, sp)
-	ldw	(0x13, sp), y
+	ldw	y, (0x04, sp)
+	ldw	(0x15, sp), y
 	clrw	x
-	ldw	(0x03, sp), x
+	ldw	(0x06, sp), x
 00104$:
 	clrw	x
 	pushw	x
 	push	#0xc8
 	push	#0x42
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fsgt
 	addw	sp, #8
 	tnz	a
 	jreq	00128$
-;	sensors.c: 426: derde+=1;
-	ldw	x, (0x03, sp)
+;	sensors.c: 425: derde+=1;
+	ldw	x, (0x06, sp)
 	incw	x
-	ldw	(0x03, sp), x
-;	sensors.c: 427: objTemp-=100;
+	ldw	(0x06, sp), x
+;	sensors.c: 426: objTemp-=100;
 	clrw	x
 	pushw	x
 	push	#0xc8
 	push	#0x42
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fssub
 	addw	sp, #8
-	ldw	(0x09, sp), x
-	ldw	(0x07, sp), y
+	ldw	(0x0f, sp), x
+	ldw	(0x0d, sp), y
 	jra	00104$
-;	sensors.c: 429: while (objTemp > 10) {
+;	sensors.c: 428: while (objTemp > 10) {
 00128$:
-	ldw	y, (0x03, sp)
-	ldw	(0x11, sp), y
+	ldw	y, (0x06, sp)
+	ldw	(0x13, sp), y
 	clrw	x
-	ldw	(0x05, sp), x
+	ldw	(0x08, sp), x
 00107$:
 	clrw	x
 	pushw	x
 	push	#0x20
 	push	#0x41
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fsgt
 	addw	sp, #8
 	tnz	a
 	jreq	00129$
-;	sensors.c: 430: tweede+=1;
-	ldw	x, (0x05, sp)
+;	sensors.c: 429: tweede+=1;
+	ldw	x, (0x08, sp)
 	incw	x
-	ldw	(0x05, sp), x
-;	sensors.c: 431: objTemp-=10;
+	ldw	(0x08, sp), x
+;	sensors.c: 430: objTemp-=10;
 	clrw	x
 	pushw	x
 	push	#0x20
 	push	#0x41
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fssub
 	addw	sp, #8
-	ldw	(0x09, sp), x
-	ldw	(0x07, sp), y
-	jra	00107$
-;	sensors.c: 433: while (objTemp > 0)
-00129$:
-	ldw	y, (0x05, sp)
-	ldw	(0x1b, sp), y
-	clrw	x
 	ldw	(0x0f, sp), x
+	ldw	(0x0d, sp), y
+	jra	00107$
+;	sensors.c: 432: while (objTemp > 0)
+00129$:
+	ldw	y, (0x08, sp)
+	ldw	(0x11, sp), y
+	clrw	x
+	ldw	(0x01, sp), x
 00110$:
 	clrw	x
 	pushw	x
 	clrw	x
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fsgt
 	addw	sp, #8
 	tnz	a
 	jreq	00112$
-;	sensors.c: 435: eerste+=1;
-	ldw	x, (0x0f, sp)
+;	sensors.c: 434: eerste+=1;
+	ldw	x, (0x01, sp)
 	incw	x
-	ldw	(0x0f, sp), x
-;	sensors.c: 436: objTemp-=1;
+	ldw	(0x01, sp), x
+;	sensors.c: 435: objTemp-=1;
 	clrw	x
 	pushw	x
 	push	#0x80
 	push	#0x3f
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
-	ldw	x, (0x0d, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	call	___fssub
 	addw	sp, #8
-	ldw	(0x09, sp), x
-	ldw	(0x07, sp), y
+	ldw	(0x0f, sp), x
+	ldw	(0x0d, sp), y
 	jra	00110$
 00112$:
-;	sensors.c: 439: utemp=vierde*1000+derde*100+tweede*10+eerste;
-	ldw	x, (0x13, sp)
+;	sensors.c: 438: utemp=vierde*1000+derde*100+tweede*10+eerste;
+	ldw	x, (0x15, sp)
 	pushw	x
 	push	#0xe8
 	push	#0x03
 	call	__mulint
 	addw	sp, #4
 	ldw	(0x19, sp), x
-	ldw	x, (0x11, sp)
+	ldw	x, (0x13, sp)
 	pushw	x
 	push	#0x64
 	push	#0x00
@@ -1222,27 +1222,27 @@ _main:
 	addw	sp, #4
 	addw	x, (0x19, sp)
 	ldw	(0x17, sp), x
-	ldw	x, (0x1b, sp)
+	ldw	x, (0x11, sp)
 	pushw	x
 	push	#0x0a
 	push	#0x00
 	call	__mulint
 	addw	sp, #4
 	addw	x, (0x17, sp)
-	addw	x, (0x0f, sp)
+	addw	x, (0x01, sp)
 	clrw	y
 	tnzw	x
 	jrpl	00162$
 	decw	y
 00162$:
-;	sensors.c: 442: tm1637DisplayDecimal(utemp, 1); // eg 37:12
+;	sensors.c: 441: tm1637DisplayDecimal(utemp, 1); // eg 37:12
 	push	#0x01
 	push	#0x00
 	pushw	x
 	pushw	y
 	call	_tm1637DisplayDecimal
 	addw	sp, #6
-;	sensors.c: 445: delayTenMicro();
+;	sensors.c: 444: delayTenMicro();
 	call	_delayTenMicro
 	jp	00114$
 	addw	sp, #28
